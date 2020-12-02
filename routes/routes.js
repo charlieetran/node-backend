@@ -1,5 +1,3 @@
-const appRouter = (app, fs) => {};
-
 const userRoutes = require('./users');
 
 const appRouter = (app, fs) => {
