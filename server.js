@@ -1,7 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors')
 
 var app = express();
+app.use(cors())
 
 // file system helper
 const fs = require('fs');
