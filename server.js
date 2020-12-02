@@ -1,9 +1,7 @@
-var http = require('http');
+const express = require('express');
 
-const server = http.createServer(function (req,res)  {
-  // HTTP server response- 200 indicates a success
-  res.writeHead(200, {'Content-Type': 'application/json'});
-  res.end('Hello, World!');
-});
+var app = express();
 
-server.listen(8080); // listening on port 8080
+const server = app.listen(8080, () => {
+    console.log('listening on port %s...', server.address().port);
+  });
