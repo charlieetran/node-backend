@@ -1,4 +1,5 @@
 const userRoutes = require('./users');
+const notesRoutes = require('./notes-route.js');
 
 const appRouter = (app, fs) => {
 
@@ -7,6 +8,7 @@ const appRouter = (app, fs) => {
   });
 
   userRoutes(app, fs);
+  notesRoutes(app, fs);
 };
 
 module.exports = appRouter;
