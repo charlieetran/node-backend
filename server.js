@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const routes = require('./routes/routes.js')(app, fs);
 
-const url = 'mongodb://localhost:27017'
+const url = 'mongodb://localhost:27017/notesDB'
 mongoose.connect(url, function(err, db) {
     console.log("Databse connection established");
     db.close();
