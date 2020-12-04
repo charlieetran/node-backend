@@ -16,10 +16,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const routes = require('./routes/routes.js')(app, fs);
 
-const url = 'mongodb://localhost:27017/notesDB'
-mongoose.connect(url, function(err, db) {
-    console.log("Databse connection established");
-    db.close();
+
+const url = "mongodb://localhost:27017/notesdb"
+mongoose.connect(url, { useNewUrlParser: true,  useUnifiedTopology: true }, (err, db) => {
+    console.log("Database connection established");
 })
 
 const server = app.listen(8080, () => {
