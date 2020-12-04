@@ -51,7 +51,19 @@ exports.update = (req, res) => {
      })
  };
 
-exports.delete = (req, res) => {
+exports.deleteAll = (req, res) => {
+    if(Note.exists({})) {
+        return res.status(400).send('No notes to be deleted')
+    }
+    Note.remove({})
+    .then(num => {
+        res.send("All notes deleted")
+    }).catch(err => {
+        res.status(500).send('Error deleting notes')
+    })
+};
+
+exports.deleteOne = (req, res) => {
     var id = req.params.id;
     Note.findByIdAndDelete(id)
     .then(note => {
