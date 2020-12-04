@@ -1,5 +1,5 @@
 const userRoutes = require('./users');
-const notesRoutes = require('./notes-route.js');
+const notesRoutes = require('./notes.route.js');
 
 const appRouter = (app, fs) => {
 
