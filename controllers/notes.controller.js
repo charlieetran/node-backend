@@ -1,38 +1,59 @@
-const { resolveNaptr } = require('dns');
+const { ValidationError, DatabaseError } = require('../models/notes.model.js');
 const Note = require('../models/notes.model.js');
 
 exports.create = (req, res) => {
-    if(!req.body.content){
-        return res.status(400).send('Must create with non-empty content')
+    if(!req.body.content) {
+        return res.status(400).send("Content must be non-empty");
     }
-    const note = new Note({
-        content: req.body.content
-    });
 
-    note.save();
-    res.send(note);
+    Note.createNote(req.body.content)
+    .then(note => {
+        res.send('Note created: ' + note);
+    })
+    .catch(err => {
+        if(err instanceof DatabaseError) {
+            return res.status(500).send(err.message);
+        } else if(err instanceof ValidationError) {
+            return res.status(400).send(err.message);
+        } else {
+            throw err;
+        }
+    })
+
 };
 
 exports.retrieveAll = (req, res) => {
-    Note.find()
+
+    Note.findNotes()
     .then(notes => {
-        res.send(notes);
-    }).catch(err => {
-        res.status(500).send('Error retrieving notes')
-    });
+        res.send('Notes retrieved: ' + notes);
+    }).catch(err =>{
+        if(err instanceof DatabaseError) {
+            return res.status(500).send(err.message);
+        } else {
+            throw err;
+        } 
+    })
+        
 };
 
+
 exports.retrieveOne = (req, res) => {
-    var id = req.params.id;
-    Note.findById(id)
+    var id = req.params.id;    
+
+    Note.findNote(id)
     .then(note => {
-        if(note === null) {
-            return res.status(404).send('No note with id: ' + id)
-        }
-        res.send(note);
+        res.send('Note retrieved: ' + note.content);
     }).catch(err => {
-        res.status(500).send('Error retrieving note')
+        if(err instanceof ValidationError) {
+            return res.status(404).send(err.message);
+        } else if(err instanceof DatabaseError) {
+            return res.status(500).send(err.message);
+        } else {
+            throw err;
+        }
     })
+
 };
 
 exports.update = (req, res) => {
@@ -40,39 +61,52 @@ exports.update = (req, res) => {
         return res.status(400).send('Must update with non-empty content')
     } 
     var id = req.params.id;
-    Note.findByIdAndUpdate(id, { content: req.body.content }, { new: true})
+
+    Note.updateNote(id, req.body.content)
     .then(note => {
-        if(note === null) {
-            return res.status(404).send('No note with id: ' + id)
+        res.send('Updated to: ' + note.content);
+    }).catch(err => {
+        if(err instanceof ValidationError) {
+            return res.status(404).send(err.message);
+        } else if(err instanceof DatabaseError) {
+            return res.status(500).send(err.message);
+        } else {
+            throw err;
         }
-         res.send(note);
-     }).catch(err => {
-         res.status(500).send('Error updating note')
-     })
+    }) 
+        
  };
 
 exports.deleteAll = (req, res) => {
-    if(Note.exists({})) {
-        return res.status(400).send('No notes to be deleted')
-    }
-    Note.remove({})
-    .then(num => {
-        res.send("All notes deleted")
+
+
+    Note.deleteNotes()
+    .then(notes => {
+        res.send("All notes deleted");
     }).catch(err => {
-        res.status(500).send('Error deleting notes')
-    })
+        if(err instanceof DatabaseError) {
+            return res.status(500).send(err.message);
+        } else {
+            throw err;
+        }
+    }) 
+        
 };
 
 exports.deleteOne = (req, res) => {
     var id = req.params.id;
-    Note.findByIdAndDelete(id)
+
+    Note.deleteNote(id)
     .then(note => {
-        if(note === null) {
-            return res.status(404).send('No note with id: ' + id)
-        }
-         res.send('Note deleted')
+        res.send("Note deleted");
     }).catch(err => {
-        res.status(500).send('Error deleting note')
-    })
- 
+        if(err instanceof ValidationError) {
+            return res.status(404).send(err.message);
+        } else if(err instanceof DatabaseError) {
+            return res.status(500).send(err.message);
+        } else {
+            throw err;
+        }
+    }) 
+        
 };
