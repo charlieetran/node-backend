@@ -6,6 +6,7 @@ exports.create = (req, res) => {
         return res.status(400).send("Content must be non-empty");
     }
 
+    //if nothing is found (or null is returned from model) then return null
     Note.createNote(req.body.content)
     .then(note => {
         res.send('Note created: ' + note);
@@ -43,6 +44,9 @@ exports.retrieveOne = (req, res) => {
 
     Note.findNote(id)
     .then(note => {
+        if(note === null) {
+            return res.send('Nothing found');
+        }
         res.send('Note retrieved: ' + note.content);
     }).catch(err => {
         if(err instanceof ValidationError) {
@@ -64,6 +68,9 @@ exports.update = (req, res) => {
 
     Note.updateNote(id, req.body.content)
     .then(note => {
+        if(note === null) {
+            return res.send('Nothing found');
+        }
         res.send('Updated to: ' + note.content);
     }).catch(err => {
         if(err instanceof ValidationError) {

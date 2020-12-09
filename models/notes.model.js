@@ -53,10 +53,6 @@ createNote = async (reqContent) => {
 findNote = async (id) => {
     return Note.findById(id)
     .then(note => {
-        // how to throw this error?
-        if(note === null) {
-            throw new ValidationError("No note with id: " + id);
-        } 
         return note;
     }).catch(err => {
         if(err.kind === 'ObjectId'){
@@ -74,10 +70,6 @@ updateNote = async (id, reqContent) => {
     }
     return Note.findByIdAndUpdate(id, { content: reqContent }, { new: true, useFindAndModify: false})
     .then(note => {
-        // how to throw this error?
-        if(note === null) {
-            throw new ValidationError("No note with id: " + id);
-        } 
         return note;
     }).catch(err => {
         if(err.kind === 'ObjectId'){
@@ -110,8 +102,6 @@ deleteNote = async (id) => {
         
 
 };
-
-
 
 
 
