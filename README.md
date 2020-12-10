@@ -1,4 +1,4 @@
-API testing
+API Practice
 
 ## Steps to Setup
 
@@ -12,6 +12,12 @@ yarn install
 
 ```bash
 nodemon server.js
+```
+
+3. Run Jest tests
+
+```bash
+yarn test
 ```
 
 You can browse the apis at <http://localhost:8080>
