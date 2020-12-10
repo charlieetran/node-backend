@@ -34,7 +34,7 @@ createNote = async (reqContent) => {
 
     note.save()
     .catch(err => {
-        throw err.name || new DatabaseError("Problem saving note");
+       throw new DatabaseError("Problem saving note");
     })
     
     return note;
@@ -44,7 +44,7 @@ createNote = async (reqContent) => {
  findNotes = async () => {
     return Note.find()
     .catch(err => {
-        throw err.name || new DatabaseError("Problem finding all notes");
+        throw new DatabaseError("Problem finding all notes");
     })
     
 };
@@ -58,7 +58,7 @@ findNote = async (id) => {
         if(err.kind === 'ObjectId'){
             throw new ValidationError("invalid id")
         }
-        throw err.name || new DatabaseError("Problem finding note")
+        throw new DatabaseError("Problem finding note")
     })
 
 
@@ -75,7 +75,7 @@ updateNote = async (id, reqContent) => {
         if(err.kind === 'ObjectId'){
             throw new ValidationError("invalid id")
         }
-        throw err.name || new DatabaseError("Problem updating note")
+        throw new DatabaseError("Problem updating note")
     })
 
 };
@@ -83,7 +83,7 @@ updateNote = async (id, reqContent) => {
 deleteNotes = async () => {
     return Note.deleteMany()
     .catch(err => {
-        throw err.name || new DatabaseError("Problem deleting all notes");
+        throw new DatabaseError("Problem deleting all notes");
     })
 };
 
@@ -97,7 +97,7 @@ deleteNote = async (id) => {
         if(err.kind === 'ObjectId'){
             throw new ValidationError("invalid id")
         }
-        throw err.name || new DatabaseError("Problem deleting note")
+        throw new DatabaseError("Problem deleting note")
     })
         
 

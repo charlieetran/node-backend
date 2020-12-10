@@ -6,7 +6,7 @@ exports.create = (req, res) => {
         return res.status(400).send("Content must be non-empty");
     }
 
-    //if nothing is found (or null is returned from model) then return null
+    
     Note.createNote(req.body.content)
     .then(note => {
         res.send('Note created: ' + note);
