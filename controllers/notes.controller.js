@@ -2,10 +2,6 @@ const { ValidationError, DatabaseError } = require('../models/notes.model.js');
 const Note = require('../models/notes.model.js');
 
 exports.create = (req, res) => {
-    if(!req.body.content) {
-        return res.status(400).send("Content must be non-empty");
-    }
-
     
     Note.createNote(req.body.content)
     .then(note => {
