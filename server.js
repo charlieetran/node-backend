@@ -17,8 +17,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const routes = require('./routes/routes.js')(app, fs);
 
 
-const url = "mongodb://localhost:27017/notesdb"
-mongoose.connect(url, { useNewUrlParser: true,  useUnifiedTopology: true }, (err) => {
+const uri = "mongodb://localhost:27017/notesdb"
+mongoose.connect(uri, { useNewUrlParser: true,  useUnifiedTopology: true }, (err) => {
     console.log("Database connection status: " + mongoose.connection.readyState);
 })
 

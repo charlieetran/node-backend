@@ -1,3 +1,4 @@
+
 const mongoose = require('mongoose');
 
 const NoteSchema = mongoose.Schema({
@@ -27,16 +28,18 @@ createNote = async (reqContent) => {
     if(!reqContent) {
         throw new ValidationError("No content given");
     }
-
+    
     const note = new Note({
         content: reqContent
     });
 
-    note.save()
-    .catch(err => {
-       throw new DatabaseError("Problem saving note");
-    })
-    
+    try{
+        console.log("Try saving");
+        await note.save();
+    } catch(err){
+        throw err;
+    }
+    console.log("Returning note")
     return note;
 };
 
