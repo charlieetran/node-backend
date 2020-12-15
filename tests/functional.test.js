@@ -32,14 +32,12 @@ describe("Send POST request", () => {
         expect(axios.post).toHaveBeenCalledTimes(1);
         expect(axios.post).toHaveBeenCalledWith(url);
         
-        
     });
 
     
 
     it("Error in sending a POST request", async () => {
         const postErr = new ValidationError('No content given');
-        const data = { content: ""};
         const url = "/notes";
 
         axios.post = jest.fn().mockRejectedValue(postErr);
