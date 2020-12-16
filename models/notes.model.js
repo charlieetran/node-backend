@@ -24,7 +24,7 @@ class DatabaseError extends Error {
     }
 }
 
-createNote = async (reqContent, mongCon) => {
+createNote = async (reqContent) => {
     if(!reqContent) {
         throw new ValidationError("No content given");
     }
@@ -33,23 +33,21 @@ createNote = async (reqContent, mongCon) => {
         content: reqContent
     });
     
-    console.log("save Db connection status: " + mongCon.readyState);
     
     try{
         console.log("Try saving");
        await note.save()
      
     } catch(err){
-        throw err;
+        throw new DatabaseError("Problem saving note");
     }
     
-    console.log("Returning note");
+
     return note;
 };
 
 
- findNotes = async (mongCon) => {
-    console.log("find Db connection status: " + mongCon.readyState);
+ findNotes = async () => {
     return Note.find()
     .catch(err => {
         throw err;
