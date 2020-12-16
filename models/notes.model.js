@@ -35,7 +35,7 @@ createNote = async (reqContent) => {
     
     
     try{
-        console.log("Try saving");
+        
        await note.save()
      
     } catch(err){
