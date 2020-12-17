@@ -7,9 +7,6 @@ const NoteSchema = mongoose.Schema({
 
 const Note = mongoose.model('Note', NoteSchema)
 
-// create functions to move out mongoose functions from controller to here
-// create and handle custom errors
-
 class ValidationError extends Error {
     constructor(message) {
         super(message);
